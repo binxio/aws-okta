@@ -2,7 +2,7 @@ import dotenv from "dotenv";
 import { homedir, platform } from "os";
 import ini from 'ini';
 import fs from 'fs';
-
+import path from 'path';
 
 // let dotenvPath;
 // if (platform() === "darwin") {
@@ -43,7 +43,7 @@ interface IConfiguration {
 // };
 
 const getEnvVariables = () => {
-    const environmentPath = homedir + '/.aws-okta';
+    const environmentPath = path.join(homedir(), '.aws-okta', 'env');
     const config = ini.parse(fs.readFileSync(environmentPath, 'utf-8'))
     return {
         AWS_REGION: config.AWS_REGION,
