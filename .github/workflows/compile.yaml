@@ -1,9 +1,12 @@
-# name: Compile app for various operating systems
-# on:
-#   push:
-#     branches: [ main ]
+name: Compile app for various operating systems
+on:
+  push:
+    branches: [ main ]
 
-# jobs:
+env:
+  GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+jobs:
+  
 #   compile-ubuntu:
 #     name: Compile app for Ubuntu
 #     runs-on: ubuntu-latest
@@ -22,12 +25,12 @@
 #       - run: |
 #           npm run dist:win
 
-#   compile-macos:
-#     name: Compile app for MacOS
-#     runs-on: macos-latest
-#     steps:
-#       - uses: actions/checkout@v3
-#       - uses: actions/setup-node@v3
-#       - run: |
-#           npm run dist:mac
+  compile-macos:
+    name: Compile app for MacOS
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+      - run: |
+          npm ci && npm run package:mac
       

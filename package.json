@@ -1,25 +1,15 @@
 {
   "name": "aws-okta",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "",
+  "homepage": "https://github.com/binxio/aws-okta",
   "main": "./dist/main.js",
   "build": {
-    "appId": "test.id",
+    "appId": "com.electron.aws-okta.app",
     "files": [
       "dist/**/*",
       "package.json"
     ],
-    "win": {
-      "target": [
-        {
-          "target": "nsis",
-          "arch": [
-            "x64",
-            "ia32"
-          ]
-        }
-      ]
-    },
     "mac": {
       "category": "public.app-category.developer-tools",
       "target": [
@@ -30,6 +20,9 @@
             "x64"
           ]
         }
+      ],
+      "publish": [
+        "github"
       ]
     }
   },
