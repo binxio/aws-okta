@@ -39,7 +39,7 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "node_modules/.bin/tsc",
+    "build": "npx tsc",
     "start": "npm run build && node_modules/.bin/electron ./dist/main.js",
     "package:mac": "npm run build && electron-builder --mac",
     "package:win": "npm run build && electron-builder --win"
