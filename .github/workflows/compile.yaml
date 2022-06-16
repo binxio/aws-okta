@@ -1,0 +1,33 @@
+# name: Compile app for various operating systems
+# on:
+#   push:
+#     branches: [ main ]
+
+# jobs:
+#   compile-ubuntu:
+#     name: Compile app for Ubuntu
+#     runs-on: ubuntu-latest
+#     steps:
+#       - uses: actions/checkout@v3
+#       - uses: actions/setup-node@v3
+#       - run: |
+#         npm run dist:linux
+
+#   compile-windows:
+#     name: Compile app for Windows
+#     runs-on: windows-latest
+#     steps:
+#       - uses: actions/checkout@v3
+#       - uses: actions/setup-node@v3
+#       - run: |
+#           npm run dist:win
+
+#   compile-macos:
+#     name: Compile app for MacOS
+#     runs-on: macos-latest
+#     steps:
+#       - uses: actions/checkout@v3
+#       - uses: actions/setup-node@v3
+#       - run: |
+#           npm run dist:mac
+      
