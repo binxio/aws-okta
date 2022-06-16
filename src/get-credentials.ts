@@ -32,8 +32,6 @@ export const startAuthenticationSession = async (window: BrowserWindow) => {
             const samlResponse: string = await window.webContents.executeJavaScript(`document.getElementsByName('SAMLResponse')[0].value`)
             const assumableRoles = await getAssumableRoles(window);
             const assumedRoleCredentials = await getAssumedRoleCredentials(samlResponse, assumableRoles);
-
-            console.log(`GOT CREDENTIALS:\n ${JSON.stringify(assumedRoleCredentials, null, 4)}`)
             writeFile(assumedRoleCredentials);
             window.close();
         }

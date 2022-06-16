@@ -16,14 +16,14 @@ jobs:
 #       - run: |
 #         npm run dist:linux
 
-   compile-windows:
-     name: Compile app for Windows
-     runs-on: windows-latest
-     steps:
-       - uses: actions/checkout@v3
-       - uses: actions/setup-node@v3
-       - run: |
-           npm ci && npm run package:win
+  compile-windows:
+   name: Compile app for Windows
+   runs-on: windows-latest
+   steps:
+     - uses: actions/checkout@v3
+     - uses: actions/setup-node@v3
+     - run: |
+         npm ci && npm run package:win
 
   compile-macos:
     name: Compile app for MacOS
