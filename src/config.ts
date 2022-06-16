@@ -1,12 +1,12 @@
 import dotenv from "dotenv";
-import { platform } from "os";
+import { homedir, platform } from "os";
 
 
 let dotenvPath;
 if (platform() === "darwin") {
     dotenvPath = "/Applications/aws-okta.app/Contents";
 } else if (platform() === "win32") {
-    dotenvPath = "banana";
+    dotenvPath = `${homedir}\\AppData\\Local\\Programs\\aws-okta`;
 } else if (platform() === "linux") {
     dotenvPath = "kiwi";
 } else {
