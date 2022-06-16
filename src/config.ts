@@ -1,5 +1,5 @@
 import dotenv from "dotenv";
-import {platform} from "os";
+import { platform } from "os";
 
 
 let dotenvPath;
@@ -17,19 +17,19 @@ dotenv.config({
     path: dotenvPath
 });
 
-interface ENV {
+interface IEnvironmentVariables {
     OKTA_AWS: string | undefined;
     AWS_REGION: string | undefined;
     SAML_PROVIDER: string | undefined;
 }
 
-interface Config {
+interface IConfiguration {
     OKTA_AWS: string;
     AWS_REGION: string;
     SAML_PROVIDER: string;
 }
 
-const getEnvVars = (): ENV => {
+const getEnvVars = (): IEnvironmentVariables => {
     return {
         OKTA_AWS: process.env.OKTA_AWS,
         AWS_REGION: process.env.AWS_REGION,
@@ -37,13 +37,13 @@ const getEnvVars = (): ENV => {
     };
 };
 
-const getSanitizedEnvVars = (config: ENV): Config => {
+const getSanitizedEnvVars = (config: IEnvironmentVariables): IConfiguration => {
     for (const [key, value] of Object.entries(config)) {
         if (value === undefined) {
             throw new Error(`Missing key ${key} in config.env`);
         }
     }
-    return config as Config;
+    return config as IConfiguration;
 };
 
 const env = getEnvVars();
