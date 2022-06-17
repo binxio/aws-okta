@@ -18,8 +18,5 @@ app.on('ready', async () => {
 })
 
 app.on('window-all-closed', () => {
-    console.log(
-        'closing app..'
-    )
     app.quit()
 })

@@ -7,14 +7,14 @@ env:
   GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 jobs:
   
-#   compile-ubuntu:
-#     name: Compile app for Ubuntu
-#     runs-on: ubuntu-latest
-#     steps:
-#       - uses: actions/checkout@v3
-#       - uses: actions/setup-node@v3
-#       - run: |
-#         npm run dist:linux
+  compile-ubuntu:
+    name: Compile app for Ubuntu
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+      - run: |
+         npm ci && npm run package:linux
 
   compile-windows:
    name: Compile app for Windows

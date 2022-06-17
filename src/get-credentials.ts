@@ -1,8 +1,8 @@
-import {app, BrowserWindow} from "electron";
-import {AssumeRoleWithSAMLCommand, Credentials, STSClient} from "@aws-sdk/client-sts";
-import {prompt} from "inquirer";
+import { app, BrowserWindow } from "electron";
+import { AssumeRoleWithSAMLCommand, Credentials, STSClient } from "@aws-sdk/client-sts";
+import { prompt } from "inquirer";
 import config from "./config"
-import {homedir, platform} from "os";
+import { homedir, platform } from "os";
 import fs from "fs";
 import ini from "ini";
 
@@ -39,15 +39,16 @@ export const startAuthenticationSession = async (window: BrowserWindow) => {
 }
 
 const writeFile = (credentials: any) => {
-    const filePath = homedir + '/.aws/credentials'
-    let file = fs.existsSync(filePath) ? fs.readFileSync(filePath, 'utf-8') : '';
-    const config = ini.parse(file)
-    config.okta = {}
-    config.okta.aws_access_key_id = credentials.AccessKeyId;
-    config.okta.aws_secret_access_key = credentials.SecretAccessKey;
-    config.okta.region = config.AWS_REGION;
-    config.okta.aws_session_token = credentials.SessionToken;
-    config.okta.token_expiration = credentials.Expiration.toISOString();
+    const filePath = homedir + '/.aws/credentials';
+    const file = fs.existsSync(filePath) ? fs.readFileSync(filePath, 'utf-8') : '';
+    const config = ini.parse(file);
+    config.okta = {
+        aws_access_key_id: credentials.AccessKeyId,
+        aws_secret_access_key: credentials.SecretAccessKey,
+        aws_session_token: credentials.SessionToken,
+        region: config.AWS_REGION,
+        token_expiration: config.Expiration.toISOString(),
+    };
     fs.writeFileSync(filePath, ini.stringify(config));
 }
 
