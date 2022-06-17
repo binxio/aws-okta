@@ -28,7 +28,6 @@ const getEnvVariables = (path?: string) => {
 }
 
 const getSanitizedEnvVars = (config: IEnvironmentVariables): IConfiguration => {
-    console.log(config)
     for (const [key, value] of Object.entries(config)) {
         if (value === undefined) {
             throw new Error(`Missing key ${key} in env`);
