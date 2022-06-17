@@ -52,7 +52,7 @@ const writeFile = (credentials: any) => {
     fs.writeFileSync(filePath, ini.stringify(config));
 }
 
-const getAssumableRoles = async (win: BrowserWindow): Promise<IAssumableRole[]> => {
+export const getAssumableRoles = async (win: BrowserWindow): Promise<IAssumableRole[]> => {
     return await win.webContents.executeJavaScript(`
         const roles = Array.from(document.getElementsByClassName("saml-role-description"));
         roles.map(role => {
@@ -64,7 +64,7 @@ const getAssumableRoles = async (win: BrowserWindow): Promise<IAssumableRole[]> 
     `);
 }
 
-const getAssumedRoleCredentials = async (samlResponse: string, roles: IAssumableRole[]): Promise<Credentials | undefined> => {
+export const getAssumedRoleCredentials = async (samlResponse: string, roles: IAssumableRole[]): Promise<Credentials | undefined> => {
     const { roleArn } = await prompt({
         name: "roleArn",
         message: "Please select the role you wish to assume:",

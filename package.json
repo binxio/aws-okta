@@ -64,6 +64,7 @@
     "@types/inquirer": "^8.2.1",
     "dotenv": "^16.0.1",
     "ini": "^3.0.0",
-    "inquirer": "^8.2.4"
+    "inquirer": "^8.2.4",
+    "ts-node": "^10.8.1"
   }
 }
