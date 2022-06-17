@@ -66,10 +66,10 @@ jobs:
   #        npm ci && npm run package:linux
 
   compile-windows:
-   name: Compile app for Windows
-   needs: [ prepare ]
-   runs-on: windows-latest
-   steps:
+    name: Compile app for Windows
+    needs: [ prepare ]
+    runs-on: windows-latest
+    steps:
     - uses: actions/checkout@v3
 
     - name: Restore node_modules from cache
@@ -99,7 +99,7 @@ jobs:
             ${{ runner.os }}-build-${{ env.cache-name }}-
             ${{ runner.os }}-build-
             ${{ runner.os }}-
-     - run: |
-         npm run package:mac
+      - run: |
+          npm run package:mac
 
       
