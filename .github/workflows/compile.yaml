@@ -6,31 +6,71 @@ on:
 env:
   GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 jobs:
-  
-  compile-ubuntu:
-    name: Compile app for Ubuntu
+  prepare:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-      - run: |
-         npm ci && npm run package:linux
 
-  compile-windows:
-   name: Compile app for Windows
-   runs-on: windows-latest
-   steps:
-     - uses: actions/checkout@v3
-     - uses: actions/setup-node@v3
-     - run: |
-         npm ci && npm run package:win
+      - name: Store node_modules in cache
+        id: cache
+        uses: actions/cache@v3
+        with:
+          path: node_modules
+          key: node_modules-${{ hashFiles('package-lock.json') }}
 
-  compile-macos:
-    name: Compile app for MacOS
-    runs-on: macos-latest
+      - name: Setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 14.x
+
+      - name: Install node_modules
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: |
+          npm ci
+
+  test:
+    runs-on: ubuntu-latest
+    needs: [ prepare ]
     steps:
       - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-      - run: |
-          npm ci && npm run package:mac
+      - name: Restore node_modules from cache
+        uses: actions/cache@v3
+        with:
+          path: node_modules
+          key: node_modules-${{ hashFiles('package-lock.json') }}
+
+      - name: Unit tests
+        with:
+          run: npm run test
+
+  
+  # compile-ubuntu:
+  #   name: Compile app for Ubuntu
+  #   needs: [ prepare ]
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v3
+  #     - uses: actions/setup-node@v3
+  #     - run: |
+  #        npm ci && npm run package:linux
+
+  # compile-windows:
+  #  name: Compile app for Windows
+  #  needs: [ prepare ]
+  #  runs-on: windows-latest
+  #  steps:
+  #    - uses: actions/checkout@v3
+  #    - uses: actions/setup-node@v3
+  #    - run: |
+  #        npm ci && npm run package:win
+
+  # compile-macos:
+  #   name: Compile app for MacOS
+  #   needs: [ prepare ]
+  #   runs-on: macos-latest
+  #   steps:
+  #     - uses: actions/checkout@v3
+  #     - uses: actions/setup-node@v3
+  #     - run: |
+  #         npm ci && npm run package:mac
       
