@@ -39,7 +39,7 @@
   },
   "scripts": {
     "test": "jest",
-    "build": "tsc",
+    "build": "npx tsc",
     "start": "npm run build && node_modules/.bin/electron ./dist/main.js",
     "package:mac": "npm run build && electron-builder --mac",
     "package:win": "npm run build && electron-builder --win"
@@ -62,7 +62,6 @@
   "dependencies": {
     "@aws-sdk/client-sts": "^3.105.0",
     "@types/inquirer": "^8.2.1",
-    "dmg-license": "^1.0.11",
     "dotenv": "^16.0.1",
     "ini": "^3.0.0",
     "inquirer": "^8.2.4",

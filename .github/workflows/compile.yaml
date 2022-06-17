@@ -96,6 +96,6 @@ jobs:
             build-${{ env.cache-name }}-
             build-
       - run: |
-          npm run package:mac
+          npm -i dmg-license && npm run package:mac
 
       
