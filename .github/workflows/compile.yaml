@@ -11,17 +11,24 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Store node_modules in cache
-        id: cache
+      - name: Cache node modules
+        id: cache-npm
         uses: actions/cache@v3
+        env:
+          cache-name: cache-node-modules
         with:
-          path: node_modules
-          key: node_modules-${{ hashFiles('package-lock.json') }}
+          # npm cache files are stored in `~/.npm` on Linux/macOS
+          path: ~/.npm
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
 
-      - name: Setup node
-        uses: actions/setup-node@v3
-        with:
-          node-version: 14.x
+      # - name: Setup node
+      #   uses: actions/setup-node@v3
+      #   with:
+      #     node-version: 14.x
 
       - name: Install node_modules
         if: steps.cache.outputs.cache-hit != 'true'
@@ -40,7 +47,6 @@ jobs:
           key: node_modules-${{ hashFiles('package-lock.json') }}
 
       - name: Unit tests
-        uses: actions/cache@v3
         run: npm run test
 
   
