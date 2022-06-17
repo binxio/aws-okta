@@ -67,7 +67,7 @@ jobs:
 
   compile-windows:
     name: Compile app for Windows
-    needs: [ prepare ]
+    needs: [ prepare, test ]
     runs-on: windows-latest
     steps:
     - uses: actions/checkout@v3
@@ -86,7 +86,7 @@ jobs:
 
   compile-macos:
     name: Compile app for MacOS
-    needs: [ prepare ]
+    needs: [ prepare, test ]
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v3
