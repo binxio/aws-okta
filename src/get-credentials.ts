@@ -1,11 +1,13 @@
 import { app, BrowserWindow } from "electron";
 import { AssumeRoleWithSAMLCommand, Credentials, STSClient } from "@aws-sdk/client-sts";
 import { prompt } from "inquirer";
-import { config } from "./config"
+import { getEnvVariables, getSanitizedEnvVars } from "./config"
 import { homedir, platform } from "os";
 import fs from "fs";
 import ini from "ini";
 
+const env = getEnvVariables();
+const config = getSanitizedEnvVars(env);
 
 const sts = new STSClient({
     region: config.AWS_REGION
@@ -52,7 +54,7 @@ const writeFile = (credentials: any) => {
     fs.writeFileSync(filePath, ini.stringify(config));
 }
 
-export const getAssumableRoles = async (win: BrowserWindow): Promise<IAssumableRole[]> => {
+const getAssumableRoles = async (win: BrowserWindow): Promise<IAssumableRole[]> => {
     return await win.webContents.executeJavaScript(`
         const roles = Array.from(document.getElementsByClassName("saml-role-description"));
         roles.map(role => {
@@ -64,7 +66,7 @@ export const getAssumableRoles = async (win: BrowserWindow): Promise<IAssumableR
     `);
 }
 
-export const getAssumedRoleCredentials = async (samlResponse: string, roles: IAssumableRole[]): Promise<Credentials | undefined> => {
+const getAssumedRoleCredentials = async (samlResponse: string, roles: IAssumableRole[]): Promise<Credentials | undefined> => {
     const { roleArn } = await prompt({
         name: "roleArn",
         message: "Please select the role you wish to assume:",

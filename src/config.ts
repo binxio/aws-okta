@@ -39,11 +39,7 @@ const getSanitizedEnvVars = (config: IEnvironmentVariables): IConfiguration => {
     return config as IConfiguration;
 };
 
-const env = getEnvVariables();
-const config = getSanitizedEnvVars(env);
-
 export {
     getEnvVariables,
     getSanitizedEnvVars,
-    config
 }
