@@ -1,13 +1,12 @@
 import { app, BrowserWindow } from "electron";
 import { AssumeRoleWithSAMLCommand, Credentials, STSClient } from "@aws-sdk/client-sts";
 import { prompt } from "inquirer";
-import { getEnvVariables, getSanitizedEnvVars } from "./config"
+import { getConfig } from "./config"
 import { homedir, platform } from "os";
 import fs from "fs";
 import ini from "ini";
 
-const env = getEnvVariables();
-const config = getSanitizedEnvVars(env);
+const config = getConfig();
 
 const sts = new STSClient({
     region: config.AWS_REGION

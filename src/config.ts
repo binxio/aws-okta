@@ -19,8 +19,7 @@ const DEFAULT_CONFIG_PATH = path.join(homedir(), '.aws-okta', 'env')
 
 const getEnvVariables = (path?: string) => {
     const environmentPath = path || DEFAULT_CONFIG_PATH;
-    const file = fs.existsSync(environmentPath) ? fs.readFileSync(environmentPath, 'utf-8') : '';
-    const config = ini.parse(file);
+    const config = ini.parse(fs.readFileSync(environmentPath, 'utf-8'))
     return {
         AWS_REGION: config.AWS_REGION,
         SAML_PROVIDER: config.SAML_PROVIDER,
@@ -29,6 +28,7 @@ const getEnvVariables = (path?: string) => {
 }
 
 const getSanitizedEnvVars = (config: IEnvironmentVariables): IConfiguration => {
+    console.log(config)
     for (const [key, value] of Object.entries(config)) {
         if (value === undefined) {
             throw new Error(`Missing key ${key} in env`);
@@ -39,7 +39,13 @@ const getSanitizedEnvVars = (config: IEnvironmentVariables): IConfiguration => {
     return config as IConfiguration;
 };
 
+const getConfig = () => {
+    const env = getEnvVariables();
+    return getSanitizedEnvVars(env);
+}
+
 export {
     getEnvVariables,
     getSanitizedEnvVars,
+    getConfig,
 }
