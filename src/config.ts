@@ -19,7 +19,8 @@ const DEFAULT_CONFIG_PATH = path.join(homedir(), '.aws-okta', 'env')
 
 const getEnvVariables = (path?: string) => {
     const environmentPath = path || DEFAULT_CONFIG_PATH;
-    const config = ini.parse(fs.readFileSync(environmentPath, 'utf-8'))
+    const file = fs.existsSync(environmentPath) ? fs.readFileSync(environmentPath, 'utf-8') : '';
+    const config = ini.parse(file);
     return {
         AWS_REGION: config.AWS_REGION,
         SAML_PROVIDER: config.SAML_PROVIDER,
