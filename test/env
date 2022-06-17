@@ -1,0 +1,3 @@
+OKTA_AWS=https://banana.icecream
+AWS_REGION=some.region
+SAML_PROVIDER=arn:aws:iam::some-account/saml-provider/some-organisation

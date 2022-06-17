@@ -15,8 +15,10 @@ interface IConfiguration {
     SAML_PROVIDER: string;
 }
 
-const getEnvVariables = () => {
-    const environmentPath = path.join(homedir(), '.aws-okta', 'env');
+const DEFAULT_CONFIG_PATH = path.join(homedir(), '.aws-okta', 'env')
+
+const getEnvVariables = (path?: string) => {
+    const environmentPath = path || DEFAULT_CONFIG_PATH;
     const config = ini.parse(fs.readFileSync(environmentPath, 'utf-8'))
     return {
         AWS_REGION: config.AWS_REGION,
@@ -28,7 +30,9 @@ const getEnvVariables = () => {
 const getSanitizedEnvVars = (config: IEnvironmentVariables): IConfiguration => {
     for (const [key, value] of Object.entries(config)) {
         if (value === undefined) {
-            throw new Error(`Missing key ${key} in config.env`);
+            throw new Error(`Missing key ${key} in env`);
+        } else if (!value) {
+            throw new Error(`Missing value for key  ${key} in env`);
         }
     }
     return config as IConfiguration;
@@ -37,4 +41,8 @@ const getSanitizedEnvVars = (config: IEnvironmentVariables): IConfiguration => {
 const env = getEnvVariables();
 const config = getSanitizedEnvVars(env);
 
-export default config;
+export {
+    getEnvVariables,
+    getSanitizedEnvVars,
+    config
+}
