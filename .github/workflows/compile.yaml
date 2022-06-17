@@ -74,9 +74,8 @@ jobs:
       uses: actions/cache@v3
       with:
         path: node_modules
-        key: build-${{ hashFiles('**/package-lock.json') }}
+        key: build-${{ hashFiles('**\package-lock.json') }}
         restore-keys: |
-            build-${{ env.cache-name }}-
             build-
     - run: |
         npm run package:win
@@ -93,7 +92,6 @@ jobs:
           path: node_modules
           key: build-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
-            build-${{ env.cache-name }}-
             build-
       - run: |
           npm install dmg-license && npm run package:mac
