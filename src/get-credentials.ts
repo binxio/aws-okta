@@ -1,7 +1,7 @@
 import { app, BrowserWindow } from "electron";
 import { AssumeRoleWithSAMLCommand, Credentials, STSClient } from "@aws-sdk/client-sts";
 import { prompt } from "inquirer";
-import config from "./config"
+import { config } from "./config"
 import { homedir, platform } from "os";
 import fs from "fs";
 import ini from "ini";
