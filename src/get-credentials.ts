@@ -47,7 +47,7 @@ const writeFile = (credentials: any) => {
         aws_secret_access_key: credentials.SecretAccessKey,
         aws_session_token: credentials.SessionToken,
         region: config.AWS_REGION,
-        token_expiration: config.Expiration.toISOString(),
+        token_expiration: credentials.Expiration?.toISOString(),
     };
     fs.writeFileSync(filePath, ini.stringify(config));
 }
