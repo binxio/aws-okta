@@ -64,7 +64,7 @@ jobs:
   #        npm ci && npm run package:linux
 
   compile-windows:
-    name: Compile app for Windows
+    name: compile windows build
     needs: [ prepare, test ]
     runs-on: windows-latest
     steps:
@@ -82,7 +82,7 @@ jobs:
         npm run package:win
 
   compile-macos:
-    name: Compile app for MacOS
+    name: compile mac build
     needs: [ prepare, test ]
     runs-on: macos-latest
     steps:
@@ -96,6 +96,6 @@ jobs:
             build-${{ env.cache-name }}-
             build-
       - run: |
-          npm -i dmg-license && npm run package:mac
+          npm install dmg-license && npm run package:mac
 
       
