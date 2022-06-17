@@ -65,23 +65,42 @@ jobs:
   #     - run: |
   #        npm ci && npm run package:linux
 
-  # compile-windows:
-  #  name: Compile app for Windows
-  #  needs: [ prepare ]
-  #  runs-on: windows-latest
-  #  steps:
-  #    - uses: actions/checkout@v3
-  #    - uses: actions/setup-node@v3
-  #    - run: |
-  #        npm ci && npm run package:win
+  compile-windows:
+   name: Compile app for Windows
+   needs: [ prepare ]
+   runs-on: windows-latest
+   steps:
+     - uses: actions/checkout@v3
 
-  # compile-macos:
-  #   name: Compile app for MacOS
-  #   needs: [ prepare ]
-  #   runs-on: macos-latest
-  #   steps:
-  #     - uses: actions/checkout@v3
-  #     - uses: actions/setup-node@v3
-  #     - run: |
-  #         npm ci && npm run package:mac
+      - name: Restore node_modules from cache
+        uses: actions/cache@v3
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-build-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
+     - run: |
+         npm run package:win
+
+  compile-macos:
+    name: Compile app for MacOS
+    needs: [ prepare ]
+    runs-on: macos-latest
+    steps:
+     - uses: actions/checkout@v3
+
+      - name: Restore node_modules from cache
+        uses: actions/cache@v3
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-build-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
+     - run: |
+         npm run package:mac
+
       
