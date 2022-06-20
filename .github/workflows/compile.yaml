@@ -1,4 +1,4 @@
-name: Compile app for various operating systems
+name: build app
 on:
   push:
     branches: [ main ]
@@ -11,23 +11,21 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Cache node modules
-        id: cache-npm
-        uses: actions/cache@v3
-        env:
-          cache-name: cache-node-modules
-        with:
-          # npm cache files are stored in `~/.npm` on Linux/macOS
-          path: node_modules
-          key: build-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            build-${{ env.cache-name }}-
-            build-
-
-      # - name: Setup node
-      #   uses: actions/setup-node@v3
+      # - name: Cache node modules
+      #   id: cache-npm
+      #   uses: actions/cache@v3
       #   with:
-      #     node-version: 14.x
+      #     # npm cache files are stored in `~/.npm` on Linux/macOS
+      #     path: node_modules
+      #     key: build-${{ hashFiles('**/package-lock.json') }}
+      #     restore-keys: |
+      #       build-
+
+      - name: Setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 14.x
+          cache: npm
 
       - name: Install node_modules
         if: steps.cache.outputs.cache-hit != 'true'
@@ -39,14 +37,17 @@ jobs:
     needs: [ prepare ]
     steps:
       - uses: actions/checkout@v3
-
-      - name: Restore node_modules from cache
-        uses: actions/cache@v3
+      - uses: actions/setup-node@v3
         with:
-          path: node_modules
-          key: build-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            build-
+          node-version: 14
+          cache: 'npm'
+      # - name: Restore node_modules from cache
+      #   uses: actions/cache@v3
+      #   with:
+      #     path: node_modules
+      #     key: build-${{ hashFiles('**/package-lock.json') }}
+      #     restore-keys: |
+      #       build-
 
       - name: Unit tests
         run: npm run test
@@ -62,8 +63,8 @@ jobs:
   #     - run: |
   #        npm ci && npm run package:linux
 
-  compile-windows:
-    name: compile windows build
+  build-windows:
+    name: build windows
     needs: [ prepare, test ]
     runs-on: windows-latest
     steps:
@@ -79,8 +80,8 @@ jobs:
     - run: |
         npm run package:win
 
-  # compile-macos:
-  #   name: compile mac build
+  # build-macos:
+  #   name: build mac
   #   needs: [ prepare, test ]
   #   runs-on: macos-latest
   #   steps:
