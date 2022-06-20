@@ -58,9 +58,9 @@
     "test": "jest",
     "build": "esbuild --platform=node --bundle main.ts --outdir=dist --format=cjs --external:electron",
     "start": "npm run build && electron ./dist/main.js",
-    "package:macos-latest": "npm run build && electron-builder --mac --dir",
-    "package:windows-latest": "npm run build && electron-builder --win --dir",
-    "package:ubuntu-latest": "npm run build && electron-builder --linux --dist"
+    "package:macos-latest": "npm run build && electron-builder --mac",
+    "package:windows-latest": "npm run build && electron-builder --win",
+    "package:ubuntu-latest": "npm run build && electron-builder --linux"
   },
   "keywords": [],
   "author": "",
