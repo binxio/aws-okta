@@ -54,7 +54,7 @@
   },
   "scripts": {
     "test": "jest",
-    "build": "esbuild --platform=node --bundle main.ts --outfile=dist/main.js",
+    "build": "esbuild --platform=node --bundle main.ts --outdir=dist --format=cjs --external:electron",
     "start": "npm run build && electron ./dist/main.js",
     "package:macos-latest": "npm run build && electron-builder --mac",
     "package:windows-latest": "npm run build && electron-builder --win",
