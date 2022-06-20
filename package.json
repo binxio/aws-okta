@@ -35,6 +35,21 @@
       "publish": [
         "github"
       ]
+    },
+    "linux": {
+      "category": "Development",
+      "target": [
+        {
+          "target": "AppImage",
+          "arch": [
+            "arm64",
+            "x64"
+          ]
+        }
+      ],
+      "publish": [
+        "github"
+      ]
     }
   },
   "scripts": {
@@ -42,7 +57,8 @@
     "build": "tsc",
     "start": "npm run build && node_modules/.bin/electron ./dist/main.js",
     "package:macos-latest": "npm run build && electron-builder --mac",
-    "package:windows-latest": "npm run build && electron-builder --win"
+    "package:windows-latest": "npm run build && electron-builder --win",
+    "package:ubuntu-latest": "npm run build && electron-builder --linux"
   },
   "keywords": [],
   "author": "",

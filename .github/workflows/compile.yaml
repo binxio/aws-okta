@@ -6,32 +6,6 @@ on:
 env:
   GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 jobs:
-  # prepare:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - uses: actions/checkout@v3
-
-  #     # - name: Cache node modules
-  #     #   id: cache-npm
-  #     #   uses: actions/cache@v3
-  #     #   with:
-  #     #     # npm cache files are stored in `~/.npm` on Linux/macOS
-  #     #     path: node_modules
-  #     #     key: build-${{ hashFiles('**/package-lock.json') }}
-  #     #     restore-keys: |
-  #     #       build-
-
-  #     - name: Setup node
-  #       uses: actions/setup-node@v3
-  #       with:
-  #         node-version: 14.x
-  #         cache: npm
-
-  #     - name: Install node_modules
-  #       if: steps.cache.outputs.cache-hit != 'true'
-  #       run: |
-  #         npm ci
-
   test:
     runs-on: ubuntu-latest
     steps:
@@ -40,27 +14,9 @@ jobs:
         with:
           node-version: 14
           cache: 'npm'
-      # - name: Restore node_modules from cache
-      #   uses: actions/cache@v3
-      #   with:
-      #     path: node_modules
-      #     key: build-${{ hashFiles('**/package-lock.json') }}
-      #     restore-keys: |
-      #       build-
-
       - name: Unit tests
         run: npm ci && npm run test
 
-  
-  # compile-ubuntu:
-  #   name: Compile app for Ubuntu
-  #   needs: [ prepare ]
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - uses: actions/checkout@v3
-  #     - uses: actions/setup-node@v3
-  #     - run: |
-  #        npm ci && npm run package:linux
   build: 
     strategy:
       matrix:
@@ -78,7 +34,8 @@ jobs:
         with:
           node-version: 14
           cache: npm
-      - run: npm ci && npm run package:${{ matrix.os }}
+      - name: compile app
+        run: npm ci && npm run package:${{ matrix.os }}
 
   # build-windows:
   #   name: build windows
