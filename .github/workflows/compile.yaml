@@ -50,7 +50,7 @@ jobs:
       #       build-
 
       - name: Unit tests
-        run: npm run test
+        run: npm ci && npm run test
 
   
   # compile-ubuntu:
