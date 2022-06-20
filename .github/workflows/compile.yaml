@@ -46,7 +46,6 @@ jobs:
           path: node_modules
           key: build-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
-            build-${{ env.cache-name }}-
             build-
 
       - name: Unit tests
@@ -80,20 +79,20 @@ jobs:
     - run: |
         npm run package:win
 
-  compile-macos:
-    name: compile mac build
-    needs: [ prepare, test ]
-    runs-on: macos-latest
-    steps:
-      - uses: actions/checkout@v3
-      - name: Restore node_modules from cache
-        uses: actions/cache@v3
-        with:
-          path: node_modules
-          key: build-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            build-
-      - run: |
-          npm install dmg-license && npm run package:mac
+  # compile-macos:
+  #   name: compile mac build
+  #   needs: [ prepare, test ]
+  #   runs-on: macos-latest
+  #   steps:
+  #     - uses: actions/checkout@v3
+  #     - name: Restore node_modules from cache
+  #       uses: actions/cache@v3
+  #       with:
+  #         path: node_modules
+  #         key: build-${{ hashFiles('**/package-lock.json') }}
+  #         restore-keys: |
+  #           build-
+  #     - run: |
+  #         npm install dmg-license && npm run package:mac
 
       
