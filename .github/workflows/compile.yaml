@@ -69,15 +69,15 @@ jobs:
           # - ubuntu-latest
           # - macos-latest
           - windows-latest
-      name: build ${{ matrix.os }}
-      steps:
-        - uses: actions/checkout@v3
-        - name: Setup node
-          uses: actions/setup-node@v3
-          with:
-            node-version: 14
-            cache: npm
-        - run: npm ci && npm run package:${{ matrix.os }}
+    name: build ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 14
+          cache: npm
+      - run: npm ci && npm run package:${{ matrix.os }}
 
   # build-windows:
   #   name: build windows
