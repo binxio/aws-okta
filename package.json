@@ -1,7 +1,28 @@
 {
   "name": "aws-okta",
   "version": "0.0.1",
-  "description": "",
+  "description": "Electron-based application that allows fetching temporary AWS credentials through Okta and external identity providers",
+  "author": "Binx.io",
+  "contributors": [
+    {
+      "name": "Edze Knol",
+      "email": "edzeknol@binx.io",
+      "url": "https://github.com/eknol"
+    },
+    {
+      "name": "Daniel Molenaars",
+      "email": "danielmolenaars@binx.io",
+      "url": "https://github.com/dmolenaars"
+    }
+  ],
+  "keywords": [
+    "okta",
+    "aws",
+    "sso",
+    "ssm",
+    "saml"
+  ],
+  "license": "MIT",
   "homepage": "https://github.com/binxio/aws-okta",
   "main": "./dist/main.js",
   "scripts": {
@@ -12,10 +33,6 @@
     "package:windows-latest": "npm run build && electron-builder --win",
     "package:ubuntu-latest": "npm run build && electron-builder --linux"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "sideEffects": false,
   "devDependencies": {
     "@types/ini": "^1.3.31",
     "@types/jest": "^28.1.1",
