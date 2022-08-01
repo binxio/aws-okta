@@ -5,6 +5,7 @@ import { getConfig } from "./config"
 import { homedir, platform } from "os";
 import fs from "fs";
 import ini from "ini";
+import os from 'os';
 
 const config = getConfig();
 
@@ -70,7 +71,7 @@ const getAssumedRoleCredentials = async (samlResponse: string, roles: IAssumable
         name: "roleArn",
         message: "Please select the role you wish to assume:",
         choices: roles, // The return value will be the ARN of the role name chosen by the user.
-        type: "list",
+        type: os.platform() == "win32" ? "rawlist" : "list",
         loop: false,
     });
 
