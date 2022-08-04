@@ -1,0 +1,42 @@
+<html>
+
+<head>
+    <title>Role selection</title>
+</head>
+
+<body>
+    <h1>This is a heading</h1>
+    <p>This is a paragraph.</p>
+    <script>
+        const { ipcRenderer } = require("electron")
+
+        ipcRenderer.on("incoming-roles", function (event, data) {
+            console.log("received data", JSON.stringify(data))
+            var roles = data
+
+            // create a new div element 
+            var rootDiv = document.createElement("fieldset");
+            console.log('entered addElement function')
+            for (let role in roles) {
+                console.log('loop' + roles[role].value)
+                var newDiv = document.createElement("div");
+                var radio = document.createElement("INPUT");
+                radio.setAttribute("type", "radio");
+                radio.setAttribute("name", "test");
+
+                // and give it some content 
+                var newContent = document.createTextNode(roles[role].name);
+                // add the text node to the newly created div
+                newDiv.appendChild(radio)
+                newDiv.appendChild(newContent);
+
+                rootDiv.appendChild(newDiv);
+            }
+            document.body.append(rootDiv)
+            alert("received data")
+        });
+
+    </script>
+</body>
+
+</html>

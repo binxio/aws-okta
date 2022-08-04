@@ -8,7 +8,9 @@ app.on('ready', async () => {
             width: 800,
             height: 600,
             webPreferences: {
-                devTools: false, // Set to true to enable web console debugging.
+                devTools: true, // Set to true to enable web console debugging.
+                nodeIntegration: true,
+                contextIsolation: false,
             }
         });
         await startAuthenticationSession(window);

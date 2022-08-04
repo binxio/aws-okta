@@ -76,7 +76,6 @@
         {
           "target": "dmg",
           "arch": [
-            "arm64",
             "x64"
           ]
         }

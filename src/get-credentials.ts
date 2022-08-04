@@ -24,18 +24,22 @@ export const startAuthenticationSession = async (window: BrowserWindow) => {
     // If this is the case, we will extract the SAML response and use that to make an API call with the AWS SDK.
     await window.webContents.on('will-redirect', async (event, url) => {
         if (url.includes('/sso/saml')) {
-            if (platform() === "darwin") {
-                app.hide();
-            } else if (platform() === "win32") {
-                window.minimize()
-            } else {
-                window.hide()
-            }
+            // if (platform() === "darwin") {
+            //     app.hide();
+            // } else if (platform() === "win32") {
+            //     window.minimize()
+            // } else {
+            //     window.hide()
+            // }
             const samlResponse: string = await window.webContents.executeJavaScript(`document.getElementsByName('SAMLResponse')[0].value`)
             const assumableRoles = await getAssumableRoles(window);
-            const assumedRoleCredentials = await getAssumedRoleCredentials(samlResponse, assumableRoles);
-            writeFile(assumedRoleCredentials);
-            window.close();
+
+            await window.loadFile('enter path of test.html here')
+            window.webContents.send('incoming-roles', assumableRoles)
+            // const assumableRoles = await getAssumableRoles(window);
+            // const assumedRoleCredentials = await getAssumedRoleCredentials(samlResponse, assumableRoles);
+            // writeFile(assumedRoleCredentials);
+            // window.close();
         }
     })
 }
