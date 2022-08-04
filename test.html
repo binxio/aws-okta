@@ -7,6 +7,11 @@
 <body>
     <h1>This is a heading</h1>
     <p>This is a paragraph.</p>
+    <button type="button" onclick="displayRadioValue()">
+        Submit
+    </button>
+    <div id="result"></div>
+
     <script>
         const { ipcRenderer } = require("electron")
 
@@ -23,6 +28,9 @@
                 var radio = document.createElement("INPUT");
                 radio.setAttribute("type", "radio");
                 radio.setAttribute("name", "test");
+                radio.setAttribute("id", roles[role].value)
+                newDiv.setAttribute("name", "rolearn")
+
 
                 // and give it some content 
                 var newContent = document.createTextNode(roles[role].name);
@@ -33,10 +41,22 @@
                 rootDiv.appendChild(newDiv);
             }
             document.body.append(rootDiv)
-            alert("received data")
         });
 
+        function displayRadioValue() {
+
+            var ele = document.getElementsByName('test');
+            console.log(ele)
+            for (i = 0; i < ele.length; i++) {
+                if (ele[i].checked)
+                    document.getElementById("result").innerHTML
+                        = "Selected role: " + ele[i].id;
+            }
+        }
+
     </script>
+
+
 </body>
 
 </html>
