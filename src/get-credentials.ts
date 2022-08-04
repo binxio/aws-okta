@@ -70,7 +70,7 @@ const getAssumedRoleCredentials = async (samlResponse: string, roles: IAssumable
     const { roleArn } = await inquirer.prompt({
         name: "roleArn",
         message: "Please select the role you wish to assume:",
-        choices: roles, // The return value will    be the ARN of the role name chosen by the user.
+        choices: roles, // The return value will be the ARN of the role name chosen by the user.
         type: os.platform() == "win32" ? "rawlist" : "list",
         loop: false,
     });
