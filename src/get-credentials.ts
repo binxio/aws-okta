@@ -1,6 +1,6 @@
 import { app, BrowserWindow } from "electron";
 import { AssumeRoleWithSAMLCommand, Credentials, STSClient } from "@aws-sdk/client-sts";
-import { prompt } from "inquirer";
+import inquirer from "inquirer";
 import { getConfig } from "./config"
 import { homedir, platform } from "os";
 import fs from "fs";
@@ -67,10 +67,10 @@ const getAssumableRoles = async (win: BrowserWindow): Promise<IAssumableRole[]> 
 }
 
 const getAssumedRoleCredentials = async (samlResponse: string, roles: IAssumableRole[]): Promise<Credentials | undefined> => {
-    const { roleArn } = await prompt({
+    const { roleArn } = await inquirer.prompt({
         name: "roleArn",
         message: "Please select the role you wish to assume:",
-        choices: roles, // The return value will be the ARN of the role name chosen by the user.
+        choices: roles, // The return value will    be the ARN of the role name chosen by the user.
         type: os.platform() == "win32" ? "rawlist" : "list",
         loop: false,
     });
