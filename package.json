@@ -27,7 +27,7 @@
   "main": "./dist/main.js",
   "scripts": {
     "test": "jest",
-    "build": "esbuild --platform=node --bundle main.ts --outdir=dist --format=cjs --external:electron && cp src/role-selection.html dist/",
+    "build": "esbuild --platform=node --bundle main.ts --outdir=dist --format=cjs --external:electron",
     "start": "npm run build && electron ./dist/main.js",
     "package:macos-latest": "npm run build && electron-builder --mac",
     "package:windows-latest": "npm run build && electron-builder --win",
@@ -56,7 +56,8 @@
     "files": [
       "dist",
       "package.json",
-      "!node_modules"
+      "!node_modules",
+      "src/role-selection.html"
     ],
     "compression": "maximum",
     "win": {
