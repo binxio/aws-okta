@@ -27,7 +27,7 @@ export const startAuthenticationSession = async (window: BrowserWindow) => {
         if (url.includes('/sso/saml')) {
             SAML_RESPONSE = await window.webContents.executeJavaScript(`document.getElementsByName('SAMLResponse')[0].value`)
             const assumableRoles = await getAssumableRoles(window);
-            await window.loadFile(path.join(__dirname, 'role-selection.html'));
+            await window.loadFile('./src/role-selection.html');
             window.webContents.send('incoming-roles', assumableRoles);
         }
     })
