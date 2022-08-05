@@ -1,7 +1,7 @@
-import {BrowserWindow} from "electron";
-import {AssumeRoleWithSAMLCommand, STSClient} from "@aws-sdk/client-sts";
-import {getConfig} from "./config"
-import {homedir} from "os";
+import { BrowserWindow } from "electron";
+import { AssumeRoleWithSAMLCommand, STSClient } from "@aws-sdk/client-sts";
+import { getConfig } from "./config"
+import { homedir } from "os";
 import fs from "fs";
 import ini from "ini";
 
@@ -26,7 +26,7 @@ export const startAuthenticationSession = async (window: BrowserWindow) => {
         if (url.includes('/sso/saml')) {
             SAML_RESPONSE = await window.webContents.executeJavaScript(`document.getElementsByName('SAMLResponse')[0].value`)
             const assumableRoles = await getAssumableRoles(window);
-            await window.loadFile('./role-selection.html')
+            await window.loadFile('./src/role-selection.html')
             window.webContents.send('incoming-roles', assumableRoles)
         }
     })
