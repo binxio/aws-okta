@@ -68,6 +68,9 @@
             "ia32"
           ]
         }
+      ],
+      "publish": [
+        "github"
       ]
     },
     "mac": {
