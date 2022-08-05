@@ -1,8 +1,11 @@
-import { app, BrowserWindow } from 'electron';
+import { app, BrowserWindow, ipcMain } from 'electron';
 import { startAuthenticationSession } from "./src/get-credentials";
 
 
 app.on('ready', async () => {
+    ipcMain.on('selectedRole', (event, selectedRole) => {
+        console.log("From listener: " +  selectedRole)
+    })
     try {
         const window = new BrowserWindow({
             width: 800,

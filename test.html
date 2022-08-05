@@ -1,4 +1,4 @@
-<html>
+<html lang="">
 
 <head>
     <title>Role selection</title>
@@ -13,16 +13,13 @@
         const { ipcRenderer } = require("electron")
 
         ipcRenderer.on("incoming-roles", function (event, data) {
-            console.log("received data", JSON.stringify(data))
-            var roles = data
+            const roles = data
 
             // create a new div element 
-            var rootDiv = document.createElement("fieldset");
-            console.log('entered addElement function')
+            const rootDiv = document.createElement("fieldset");
             for (let role in roles) {
-                console.log('loop' + roles[role].value)
-                var newDiv = document.createElement("div");
-                var radio = document.createElement("INPUT");
+                const newDiv = document.createElement("div");
+                const radio = document.createElement("INPUT");
                 radio.setAttribute("type", "radio");
                 radio.setAttribute("name", "test");
                 radio.setAttribute("id", roles[role].value)
@@ -30,7 +27,7 @@
 
 
                 // and give it some content 
-                var newContent = document.createTextNode(roles[role].name);
+                const newContent = document.createTextNode(roles[role].name);
                 // add the text node to the newly created div
                 newDiv.appendChild(radio)
                 newDiv.appendChild(newContent);
@@ -40,17 +37,15 @@
             document.body.append(rootDiv)
         });
 
-        function sendRoleSelection() {
-
-            var ele = document.getElementsByName('test');
-            console.log(ele)
-            for (i = 0; i < ele.length; i++) {
-                if (ele[i].checked)
+        function displayRadioValue() {
+            let list = document.getElementsByName('test');
+            list.forEach(role => {
+                if (role.checked) {
                     document.getElementById("result").innerHTML
-                        = "Selected role: " + ele[i].id;
-                // add code to send from renderer  here
-                // ipcRenderer.send(ele[i].id)
-            }
+                        = "Selected role: " + role.id;
+                    ipcRenderer.send('selectedRole', role.id)
+                }
+            })
         }
 
 
