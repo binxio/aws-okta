@@ -28,7 +28,7 @@
   "scripts": {
     "test": "jest",
     "build": "esbuild --platform=node --bundle main.ts --outdir=dist --format=cjs --external:electron",
-    "start": "npm run build && cp src/role-selection.html ./dist/ && electron ./dist/main.js",
+    "start": "npm run build && mkdir ./dist/src/ && cp src/role-selection.html ./dist/src/ && electron ./dist/main.js",
     "package:macos-latest": "npm run build && electron-builder --mac",
     "package:windows-latest": "npm run build && electron-builder --win",
     "package:ubuntu-latest": "npm run build && electron-builder --linux"
