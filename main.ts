@@ -1,11 +1,8 @@
 import { app, BrowserWindow, ipcMain } from 'electron';
-import { startAuthenticationSession } from "./src/get-credentials";
+import { startAuthenticationSession, processSelectedRole } from "./src/get-credentials";
 
 
 app.on('ready', async () => {
-    ipcMain.on('selectedRole', (event, selectedRole) => {
-        console.log("From listener: " +  selectedRole)
-    })
     try {
         const window = new BrowserWindow({
             width: 800,
@@ -16,11 +13,17 @@ app.on('ready', async () => {
                 contextIsolation: false,
             }
         });
+
+        ipcMain.on('selectedRole', async (event, selectedRole) => {
+            await processSelectedRole(selectedRole);
+            window.close();
+        });
+
         await startAuthenticationSession(window);
     } catch (err) {
         console.log(err)
     }
-})
+});
 
 app.on('window-all-closed', () => {
     app.quit()

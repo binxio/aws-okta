@@ -1,0 +1,51 @@
+<html lang="en">
+
+<head>
+    <title>Role selection</title>
+</head>
+
+<body>
+    <h1>Role selection</h1>
+    <p>Select the AWS role that you want to assume .</p>
+
+    <script>
+        const { ipcRenderer } = require("electron")
+
+        ipcRenderer.on("incoming-roles", function (event, data) {
+            const roles = data
+            const rolesFrame = document.createElement("fieldset");
+
+            roles.forEach(role => {
+                const newRole = document.createElement("div");
+                const radio = document.createElement("INPUT");
+                radio.setAttribute("type", "radio");
+                radio.setAttribute("name", "role");
+                radio.setAttribute("id", role.value)
+
+                const label = document.createTextNode(role.name);
+                newRole.appendChild(radio)
+                newRole.appendChild(label);
+
+                rolesFrame.appendChild(newRole);
+            })
+            document.body.append(rolesFrame)
+        });
+
+        function sendRoleSelection() {
+            let list = document.getElementsByName('role');
+            list.forEach(role => {
+                if (role.checked) {
+                    ipcRenderer.send('selectedRole', role.id)
+                }
+            })
+        }
+
+    </script>
+
+    <button type="button" onclick="sendRoleSelection()">
+        Submit
+    </button>
+
+</body>
+
+</html>
