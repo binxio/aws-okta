@@ -7,9 +7,6 @@
 <body>
     <h1>This is a heading</h1>
     <p>This is a paragraph.</p>
-    <button type="button" onclick="displayRadioValue()">
-        Submit
-    </button>
     <div id="result"></div>
 
     <script>
@@ -43,7 +40,7 @@
             document.body.append(rootDiv)
         });
 
-        function displayRadioValue() {
+        function sendRoleSelection() {
 
             var ele = document.getElementsByName('test');
             console.log(ele)
@@ -51,11 +48,17 @@
                 if (ele[i].checked)
                     document.getElementById("result").innerHTML
                         = "Selected role: " + ele[i].id;
+                // add code to send from renderer  here
+                // ipcRenderer.send(ele[i].id)
             }
         }
 
+
     </script>
 
+    <button type="button" onclick="sendRoleSelection()">
+        Submit
+    </button>
 
 </body>
 
