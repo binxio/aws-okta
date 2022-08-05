@@ -4,6 +4,7 @@ import { getConfig } from "./config"
 import { homedir } from "os";
 import fs from "fs";
 import ini from "ini";
+import path from "path";
 
 const config = getConfig();
 
@@ -26,8 +27,8 @@ export const startAuthenticationSession = async (window: BrowserWindow) => {
         if (url.includes('/sso/saml')) {
             SAML_RESPONSE = await window.webContents.executeJavaScript(`document.getElementsByName('SAMLResponse')[0].value`)
             const assumableRoles = await getAssumableRoles(window);
-            await window.loadFile('./src/role-selection.html')
-            window.webContents.send('incoming-roles', assumableRoles)
+            await window.loadFile(path.join(__dirname, 'role-selection.html'));
+            window.webContents.send('incoming-roles', assumableRoles);
         }
     })
 }
