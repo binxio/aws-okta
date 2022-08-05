@@ -27,7 +27,7 @@
   "main": "./dist/main.js",
   "scripts": {
     "test": "jest",
-    "build": "esbuild --platform=node --bundle main.ts --outdir=dist --format=cjs --external:electron",
+    "build": "esbuild --platform=node --bundle main.ts --outdir=dist --format=cjs --external:electron && cp src/role-selection.html dist/",
     "start": "npm run build && electron ./dist/main.js",
     "package:macos-latest": "npm run build && electron-builder --mac",
     "package:windows-latest": "npm run build && electron-builder --win",
@@ -76,7 +76,6 @@
         {
           "target": "dmg",
           "arch": [
-            "arm64",
             "x64"
           ]
         }

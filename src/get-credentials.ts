@@ -1,11 +1,9 @@
-import { app, BrowserWindow } from "electron";
-import { AssumeRoleWithSAMLCommand, Credentials, STSClient } from "@aws-sdk/client-sts";
-import inquirer from "inquirer";
-import { getConfig } from "./config"
-import { homedir, platform } from "os";
+import {BrowserWindow} from "electron";
+import {AssumeRoleWithSAMLCommand, STSClient} from "@aws-sdk/client-sts";
+import {getConfig} from "./config"
+import {homedir} from "os";
 import fs from "fs";
 import ini from "ini";
-import os from 'os';
 
 const config = getConfig();
 
@@ -18,26 +16,25 @@ interface IAssumableRole {
     value: string;
 }
 
+let SAML_RESPONSE: string;
+
 export const startAuthenticationSession = async (window: BrowserWindow) => {
     await window.loadURL(config.OKTA_AWS || "");
     // Check when the user gets redirected to the AWS assume role selection page.
     // If this is the case, we will extract the SAML response and use that to make an API call with the AWS SDK.
     await window.webContents.on('will-redirect', async (event, url) => {
         if (url.includes('/sso/saml')) {
-            if (platform() === "darwin") {
-                app.hide();
-            } else if (platform() === "win32") {
-                window.minimize()
-            } else {
-                window.hide()
-            }
-            const samlResponse: string = await window.webContents.executeJavaScript(`document.getElementsByName('SAMLResponse')[0].value`)
+            SAML_RESPONSE = await window.webContents.executeJavaScript(`document.getElementsByName('SAMLResponse')[0].value`)
             const assumableRoles = await getAssumableRoles(window);
-            const assumedRoleCredentials = await getAssumedRoleCredentials(samlResponse, assumableRoles);
-            writeFile(assumedRoleCredentials);
-            window.close();
+            await window.loadFile('./role-selection.html')
+            window.webContents.send('incoming-roles', assumableRoles)
         }
     })
+}
+
+export const processSelectedRole = async (selectedRole: string) => {
+    const assumedRoleCredentials = await getAssumedRoleCredentials(SAML_RESPONSE, selectedRole);
+    writeFile(assumedRoleCredentials);
 }
 
 const writeFile = (credentials: any) => {
@@ -66,18 +63,10 @@ const getAssumableRoles = async (win: BrowserWindow): Promise<IAssumableRole[]> 
     `);
 }
 
-const getAssumedRoleCredentials = async (samlResponse: string, roles: IAssumableRole[]): Promise<Credentials | undefined> => {
-    const { roleArn } = await inquirer.prompt({
-        name: "roleArn",
-        message: "Please select the role you wish to assume:",
-        choices: roles, // The return value will be the ARN of the role name chosen by the user.
-        type: os.platform() == "win32" ? "rawlist" : "list",
-        loop: false,
-    });
-
+const getAssumedRoleCredentials = async (samlResponse: string, role: string) => {
     const assumeRoleCommand = new AssumeRoleWithSAMLCommand({
         PrincipalArn: config.SAML_PROVIDER,
-        RoleArn: roleArn,
+        RoleArn: role,
         SAMLAssertion: samlResponse,
         DurationSeconds: 36000,
     });

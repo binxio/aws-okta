@@ -1,5 +1,5 @@
-import { app, BrowserWindow } from 'electron';
-import { startAuthenticationSession } from "./src/get-credentials";
+import { app, BrowserWindow, ipcMain } from 'electron';
+import { startAuthenticationSession, processSelectedRole } from "./src/get-credentials";
 
 
 app.on('ready', async () => {
@@ -8,14 +8,22 @@ app.on('ready', async () => {
             width: 800,
             height: 600,
             webPreferences: {
-                devTools: false, // Set to true to enable web console debugging.
+                devTools: true, // Set to true to enable web console debugging.
+                nodeIntegration: true,
+                contextIsolation: false,
             }
         });
+
+        ipcMain.on('selectedRole', async (event, selectedRole) => {
+            await processSelectedRole(selectedRole);
+            window.close();
+        });
+
         await startAuthenticationSession(window);
     } catch (err) {
         console.log(err)
     }
-})
+});
 
 app.on('window-all-closed', () => {
     app.quit()
