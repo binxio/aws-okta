@@ -1,6 +1,6 @@
 {
   "name": "aws-okta",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Electron-based application that allows fetching temporary AWS credentials through Okta and external identity providers",
   "author": "Binx.io",
   "contributors": [
