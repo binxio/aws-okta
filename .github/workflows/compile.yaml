@@ -37,40 +37,40 @@ jobs:
       - name: compile app
         run: npm ci && npm run package:${{ matrix.os }}
 
-  # build-windows:
-  #   name: build windows
-  #   needs: [ prepare, test ]
-  #   runs-on: windows-latest
-  #   steps:
-  #   - uses: actions/checkout@v3
-  #   - uses: actions/setup-node@v3
-  #     with:
-  #       node-version: 14
-  #       cache: 'npm'
-    # - name: Restore node_modules from cache
-    #   uses: actions/cache@v3
-    #   with:
-    #     path: node_modules
-    #     key: build-${{ hashFiles('**\package-lock.json') }}
-    #     restore-keys: |
-    #         build-
-    # - run: |
-    #     npm ci && npm run package:win
+  build-windows:
+    name: build windows
+    needs: [ prepare, test ]
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@v3
+    - uses: actions/setup-node@v3
+      with:
+        node-version: 14
+        cache: 'npm'
+    - name: Restore node_modules from cache
+      uses: actions/cache@v3
+      with:
+        path: node_modules
+        key: build-${{ hashFiles('**\package-lock.json') }}
+        restore-keys: |
+            build-
+    - run: |
+        npm ci && npm run package:win
 
-  # build-macos:
-  #   name: build mac
-  #   needs: [ prepare, test ]
-  #   runs-on: macos-latest
-  #   steps:
-  #     - uses: actions/checkout@v3
-  #     - name: Restore node_modules from cache
-  #       uses: actions/cache@v3
-  #       with:
-  #         path: node_modules
-  #         key: build-${{ hashFiles('**/package-lock.json') }}
-  #         restore-keys: |
-  #           build-
-  #     - run: |
-  #         npm install dmg-license && npm run package:mac
+  build-macos:
+    name: build mac
+    needs: [ prepare, test ]
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Restore node_modules from cache
+        uses: actions/cache@v3
+        with:
+          path: node_modules
+          key: build-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            build-
+      - run: |
+          npm install dmg-license && npm run package:mac
 
       
