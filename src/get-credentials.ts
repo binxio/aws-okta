@@ -4,7 +4,6 @@ import { getConfig } from "./config"
 import { homedir } from "os";
 import fs from "fs";
 import ini from "ini";
-import path from "path";
 
 const config = getConfig();
 
