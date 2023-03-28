@@ -41,15 +41,15 @@ export const processSelectedRole = async (selectedRole: string) => {
 const writeFile = (credentials: any) => {
     const filePath = homedir + '/.aws/credentials';
     const file = fs.existsSync(filePath) ? fs.readFileSync(filePath, 'utf-8') : '';
-    const config = ini.parse(file);
-    config.okta = {
+    const configFile = ini.parse(file);
+    configFile.okta = {
         aws_access_key_id: credentials.AccessKeyId,
         aws_secret_access_key: credentials.SecretAccessKey,
         aws_session_token: credentials.SessionToken,
         region: config.AWS_REGION,
         token_expiration: credentials.Expiration?.toISOString(),
     };
-    fs.writeFileSync(filePath, ini.stringify(config));
+    fs.writeFileSync(filePath, ini.stringify(configFile));
 }
 
 const getAssumableRoles = async (win: BrowserWindow): Promise<IAssumableRole[]> => {
