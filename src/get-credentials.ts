@@ -22,8 +22,8 @@ export const startAuthenticationSession = async (window: BrowserWindow) => {
     await window.loadURL(config.OKTA_AWS || "");
     // Check when the user gets redirected to the AWS assume role selection page.
     // If this is the case, we will extract the SAML response and use that to make an API call with the AWS SDK.
-    await window.webContents.on('will-redirect', async (event, url) => {
-        if (url.includes('/sso/saml')) {
+    await window.webContents.on('did-navigate', async (event, url) => {
+        if (url.includes('/saml')) {
             SAML_RESPONSE = await window.webContents.executeJavaScript(`document.getElementsByName('SAMLResponse')[0].value`)
             const assumableRoles = await getAssumableRoles(window);
             await window.loadFile('./src/role-selection.html');
